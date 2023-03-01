@@ -3,7 +3,10 @@ version: "3.9"
 services:
   web:
     # Берем Dockerfile из каталога app
-    image: marmunc/django_project:latest
+    image: marmunc/django_project:web
+    #build:
+    #  context: ./app/django_project
+    #  dockerfile: Dockerfile.prod
     # Запускаем сервер gunicorn
     command: gunicorn django_project.wsgi:application --bind 0.0.0.0:8000
     # Открываем порт 8000 внутри и снаружи
@@ -27,6 +30,9 @@ services:
       - ./.env.prod.db
   nginx:
     image: marmunc/django_project:nginx
+    #build:
+    #  context: ./app/nginx
+    #  dockerfile: Dockerfile
     volumes:
       - static_volume:/home/app/django_project/web/static
       - media_volume:/home/app/django_project/web/media
